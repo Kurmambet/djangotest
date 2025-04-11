@@ -14,10 +14,12 @@
                   <p><img src="{{ post.photo.url }}"   class="card-img-top"  alt='{{ tovar_slug }}'></p>
                 {% endif %}
                   <div class="card-body">
+                    <p>branch windows</p>
                     <h5 class="card-title">{{ post.title }}, {{ post.slug }}</h5>
                     <p class="card-text">{{ post.time_update }}{{ post.content|linebreaks }}</p>
                     <p class="card-text">Купи меня!!!</p>
                     <a href="#" class="btn btn-primary">Buy</a>
+
                     {% if perms.pract.change_goods %}
                       <a href="{% url 'UpdateGoodsView' post.slug %}" class="btn btn-primary">UpdateGoodsView</a>
                     {% endif %}

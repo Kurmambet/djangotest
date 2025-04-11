@@ -63,7 +63,7 @@ db_sitetest=# \dt
 
 
 (.venv)...
-pip install psycopg2
+pip install psycopg2 на линуксе не работает
 python manage.py makemigrations
 python manage.py migrate  
 python -Xutf8 manage.py dumpdata -o data.json
