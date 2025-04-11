@@ -98,7 +98,7 @@ git init
  
 git add .
 
-git status, ls --Force, git log
+git status, ls --Force (ls -la), git log
 
 git commit -m "first commit add all project",    git status, ls -Force, git log, git branch => (<main>)
 
