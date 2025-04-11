@@ -107,3 +107,9 @@ git remote => origin
 git push -u origin main   => Counting objects: 100%
 
 git branch -vv   =>   * main 1a5346c [origin/main] first commit add all project
+
+чтобы скачать с гитфаба надо:
+git init
+git branch -m main
+git remote add origin https://github.com/Kurmambet/my-project.git
+git clone https://github.com/bstashchuk/docker.git
