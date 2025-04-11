@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+
+<h1>{{ title }}</h1>
+
+{% for item in page_obj %}
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col-lg-2 col-md-2 align-self-center text-center">
+      <h2>{{ item.title }}</h2>
+    </div>
+
+    <div class="col-lg-2 col-md-8 mt-12 my-1 mx-1">
+        <img src="{{ item.photo.url }}" class="card-img-top" alt='{{ item.slug  }}'>
+    </div>
+    <hr class="border border-primary border-1 opacity-1">
+  </div>
+</div>
+
+{% endfor %}
+
+<nav>
+  <ul>
+    {% for p in page_obj.paginator.page_range %}
+    <li>
+      <a href="?page={{ p }}">{{ p }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</nav>
+
+<div class="mb-2 col-lg-4 col-md-6 mt-4">
+    <p><a class="nav-link" href="{% url 'home' %}">home</a></p>
+</div>
+
+{% endblock %}

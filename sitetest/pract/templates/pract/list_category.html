@@ -1,0 +1,40 @@
+<div class="list-group">
+    {% if category_slug == 'all' %}
+        <a href="{% url 'prices' supplier_slug 'all' %}" class="list-group-item list-group-item-action active" aria-current="true">
+                Все категории
+        </a>
+    {% else %}
+        <a href="{% url 'prices' supplier_slug 'all' %}" class="list-group-item list-group-item-action">Все категории</a>
+    {% endif %}
+
+    {% for cat in cat_db %}
+        {% if category_slug == cat.slug %}
+          <a href="{% url 'prices' supplier_slug cat.slug %}" class="list-group-item list-group-item-action active" aria-current="true">
+            {{ cat.name }}
+          </a>
+        {% else %}
+            <a href="{% url 'prices' supplier_slug cat.slug %}" class="list-group-item list-group-item-action">{{ cat.name }}</a>
+        {% endif %}
+    {% endfor %}
+
+    <hr>
+
+    {% if supplier_slug == 'all' %}
+        <a href="{% url 'prices' 'all' category_slug %}" class="list-group-item list-group-item-action active" aria-current="true">
+                Все категории
+        </a>
+    {% else %}
+        <a href="{% url 'prices' 'all' category_slug %}" class="list-group-item list-group-item-action">Все категории</a>
+    {% endif %}
+
+    {% for sup in sup_db %}
+        {% if supplier_slug == sup.slug %}
+          <a href="{% url 'prices' sup.slug category_slug %}" class="list-group-item list-group-item-action active" aria-current="true">
+            {{ sup.name }}
+          </a>
+        {% else %}
+        <a href="{% url 'prices' sup.slug category_slug %}" class="list-group-item list-group-item-action">{{ sup.name }}</a>
+        {% endif %}
+  {% endfor %}
+
+</div>

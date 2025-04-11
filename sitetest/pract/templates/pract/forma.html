@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <div class="mb-2 col-lg-10 col-md-8 mt-8">
+      <label for="exampleFormControlInput1" class="form-label">Email address</label>
+      <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" name="field-email">
+    </div>
+
+    <div class="mb-2 col-lg-10 col-md-8 mt-8">
+      <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="field-textarea">сюда писать</textarea>
+    </div>
+
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary mb-3">Confirm identity</button>
+    </div>
+
+
+
+
+
+<!--    <label for="text" class="form-label">Старое</label>-->
+<!--    <input type="text" name="fio" value="" >-->
+<!--    <p><textarea name="message" rows="1" cols="10"></textarea> </p>-->
+<!--    <p><input type="submit" value="Отправить"></p>-->
+</form>
+
+
+{% endblock %}

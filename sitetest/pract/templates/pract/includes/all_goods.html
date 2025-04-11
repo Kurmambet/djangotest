@@ -1,0 +1,28 @@
+{% load static %}
+{% if all_goods_db %}
+    {% for product in all_goods_db %}
+        <div class="col-lg-4 col-md-6 mt-4">
+          <div class="card">
+
+              {% if product.photo %}
+                <a href="{% url 'tovar' product.slug %}"><img src="{{ product.photo.url }}" class="card-img-top" alt='{{ product.title  }}'></a>
+              {% endif %}
+
+              <div class="card-body">
+              <h5 class="card-title"><a href="{% url 'tovar' product.slug %}">{{ product.title }}</a></h5>
+
+              <p class="card-text"><a href="{% url 'tovar' product.slug %}">
+                {{ product.content|truncatewords:15|linebreaks }}
+              </a></p>
+              <a href="{% url 'tovar' product.slug %}" class="btn btn-primary">Buy</a>
+
+            </div>
+          </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="col-lg-10 col-md-6 mt-4">
+        <h1>Упс! У нас нет в наличии {{category_slug}} от {{supplier_slug}}</h1>
+    </div>
+{% endif %}
+
