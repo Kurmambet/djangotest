@@ -1,0 +1,111 @@
+mkdir my-project
+PS D:\Domashka> cd my-project
+PS D:\Domashka\my-project> pwd
+PS D:\Domashka\my-project> echo "some text" > file.txt
+PS D:\Domashka\my-project> ls
+
+PS D:\Domashka\my-project> cat file.txt
+some text
+PS D:\Domashka\my-project> rm file.txt
+PS D:\Domashka\my-project> git init
+
+PS D:\Domashka\my-project> ls
+PS D:\Domashka\my-project> ls -Force
+
+PS D:\Domashka\my-project> git branch  
+
+PS D:\Domashka\my-project> cd .git\objects
+PS D:\Domashka\my-project\.git\objects> ls -Force
+
+git status
+git log
+
+PS D:\Domashka\my-project> echo "first file text" > first-file.txt
+
+mkdir first-subfolder
+
+PS D:\Domashka\my-project> git add first-file.txt
+PS D:\Domashka\my-project> git status
+
+PS D:\Domashka\my-project> git add .
+
+git log        
+git commit -m "first commit"
+
+PS D:\Domashka\my-project\.git\objects\a0> git cat-file -t a0a99478e
+commit
+PS D:\Domashka\my-project\.git\objects\a0> git cat-file -p a0a99478e
+tree 91f482e82b9a35e1253e6a2831ae113a77e35c9f
+
+rm first-file.txt
+
+cd ../..
+
+PS D:\Domashka\my-project> git checkout a0a99478ecc6
+Note: switching to 'a0a99478ecc6'.
+git checkout main
+
+
+PS D:\Domashka\my-project> git branch new-feature
+PS D:\Domashka\my-project> git branch
+* main
+  new-feature
+
+git checkout new-feature
+
+PS D:\Domashka\my-project> git checkout -b another-feature
+Switched to a new branch 'another-feature'
+
+PS D:\Domashka\my-project> git branch -d another-feature
+Deleted branch another-feature (was 1001dd4).
+
+git branch -m main           commit 1001dd4be0cd153cf395bfec79aa213a06df1e46 (HEAD -> main)     переименовать
+
+PS D:\Domashka\my-project> code . для перехода в vs code
+
+PS D:\Domashka\my-project> git commit -m "New file in the feature file"
+[new-feature 2f11351] New file in the feature file
+
+PS D:\Domashka\my-project> git merge -m  "merging new-feature into main" new-feature
+
+git remote add origin <url>
+
+git remote add origin https://github.com/Kurmambet/my-project.git
+
+git clone
+git clone https://github.com/bstashchuk/docker.git
+
+git push -u origin <branch> чтобы свздать локальную ветку, на которой сейчас находишься с удаленным репозиторием, под названием branch. 
+                            при первой загрузкой   
+git push -u origin main
+git push    просто загрузка обнов в удаленный репозиторий (если уже связаны)
+git pull    скачать из определ ветки (с удаленного), связанной с текущей (локальной)
+
+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
+
+PS D:\Domashka\my-project> git remote
+origin
+
+git branch -vv
+* main 96384b0 [origin/main] fuuf
+
+djangotest
+
+=> должно выдавать
+четкая последовательность действий нахуй  Windows
+
+git init
+ 
+git add .
+
+git status, ls --Force, git log
+
+git commit -m "first commit add all project",    git status, ls -Force, git log, git branch => (<main>)
+
+git remote add origin https://github.com/Kurmambet/... создаем на github
+
+git remote => origin
+
+git push -u origin main   => Counting objects: 100%
+
+git branch -vv   =>   * main 1a5346c [origin/main] first commit add all project
