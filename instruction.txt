@@ -81,7 +81,6 @@ git push -u origin main
 git push    просто загрузка обнов в удаленный репозиторий (если уже связаны)
 git pull    скачать из определ ветки (с удаленного), связанной с текущей (локальной)
 
-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
 
 PS D:\Domashka\my-project> git remote
 origin

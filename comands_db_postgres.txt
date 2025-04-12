@@ -1,3 +1,17 @@
+sudo apt install postgresql postgresql-contrib
+service postgresql status
+
+service postgresql
+Usage: /etc/init.d/postgresql {start|stop|restart|reload|force-reload|status} [version ..]
+
+sudo -i -u postgres          для входа в учетную запись
+psql                        и далее из учетки можно в шелл
+
+sudo -u postgres psql       для входа в шелл
+
+
+
+
 postgres=# CREATE DATABASE db_sitetest;
 CREATE DATABASE
 postgres=# \l
@@ -19,8 +33,6 @@ postgres=# \l
 
 postgres=# CREATE ROLE site_admin with password 'qwertyPSW09';
 CREATE ROLE
-postgres=# ALTER ROLE "site-admin" WITH LOGIN;
-ОШИБКА:  роль "site-admin" не существует
 postgres=# ALTER ROLE "site_admin" WITH LOGIN;
 ALTER ROLE
 postgres=# GRANT ALL PRIVILEGES ON DATABASE "db_sitetest" to site_admin;
@@ -101,4 +113,4 @@ DATABASES = {
 
 python manage.py migrate --run-syncdb  
 python manage.py loaddata data.json --exclude=contenttypes
-
+python manage.py loaddata data_with_users.json --exclude=contenttypes
