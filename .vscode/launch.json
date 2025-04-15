@@ -9,7 +9,7 @@
                   "type": "debugpy",
                   "request": "launch",
                   "program": "${workspaceFolder}/sitetest/manage.py",
-                  "args": ["runserver", "8001"], 
+                  "args": ["runserver", "8000"], 
                   "django": true,
                   "justMyCode": true,
                   "autoReload": {

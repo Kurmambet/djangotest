@@ -1,0 +1,14 @@
+# Игнорировать виртуальное окружение Python
+venv/
+.idea/
+.idea
+.vscode/
+.pylintrc
+instruction.txt
+commands_db_postgres.txt
+# Дополнительные файлы, которые можно исключить
+.git/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd

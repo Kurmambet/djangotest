@@ -1,0 +1,75 @@
+services:
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx-server
+    restart: always
+    networks:
+      - dbnet
+    expose:
+      - 8088
+    ports:
+      - "81:8088"
+    volumes:
+      - ./sitetest/static:/app/www/sitetest/static
+      - ./sitetest/media:/app/www/sitetest/media
+      - ./sitetest/logs:/app/www/sitetest/logs
+      - ./nginx:/etc/nginx/conf.d
+    depends_on:
+      - sitetest
+
+  sitetest:
+    build: ./sitetest
+    image: sitetest
+    container_name: sitetest
+    restart: always
+    command: "gunicorn -c gunicorn.py sitetest.wsgi"
+    env_file:
+      - .env 
+    links:
+      - "postgres:dbps"    
+    networks:
+      - dbnet
+    volumes:
+      - ./sitetest:/app/www/sitetest
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - "8080:8080"
+    links:
+      - "postgres:db"
+    networks:
+      - dbnet
+    depends_on:
+      - postgres
+
+
+  postgres:
+    image: postgres:17-alpine 
+    container_name: psgr
+    environment:
+      - POSTGRES_DB=${DATABASE_NAME}
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+
+    volumes:
+    - postgres-data:/var/lib/postgresql/data
+
+    networks:
+      - dbnet
+
+
+
+networks:
+  dbnet:
+    driver: bridge
+
+volumes:
+  postgres-data:
