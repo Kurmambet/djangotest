@@ -7,7 +7,7 @@ from .models import Goods, Supplier, Category
 
 @admin.register(Goods)
 class ProdAdmin(admin.ModelAdmin):
-    fields = ['title', 'slug', 'photo','tovar_photo', 'content', 'is_stock', 'cat', 'sup', 'author']
+    fields = ['title', 'slug', 'price', 'discount', 'quantity', 'photo', 'tovar_photo', 'content', 'is_stock', 'cat', 'sup', 'author']
     exclude = ['time_create', 'author']
     readonly_fields = ['time_update', 'tovar_photo', 'author']
     prepopulated_fields = {'slug':('title',)}

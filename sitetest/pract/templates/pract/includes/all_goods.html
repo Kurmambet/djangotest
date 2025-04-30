@@ -1,25 +1,76 @@
 {% load static %}
+
 {% if all_goods_db %}
+<div class="row">
     {% for product in all_goods_db %}
         <div class="col-lg-4 col-md-6 mt-4">
-          <div class="card">
+          <div class="card rounded">
 
-              {% if product.photo %}
+            {% if product.photo %}
+              <a href="{% url 'tovar' product.slug %}">
+                <img src="{{ product.photo.url }}" class="card-img-top" alt="{{ product.title }}">
+              </a>
+            {% endif %}
+              {% comment %} {% if product.photo %}
                 <a href="{% url 'tovar' product.slug %}"><img src="{{ product.photo.url }}" class="card-img-top" alt='{{ product.title  }}'></a>
-              {% endif %}
+              {% endif %} {% endcomment %}
 
               <div class="card-body">
-              <h5 class="card-title"><a href="{% url 'tovar' product.slug %}">{{ product.title }}</a></h5>
+                <a href="{% url 'tovar' product.slug %}">
+                  <h5 class="card-title">
+                      {% autoescape off %}
+                          {% if product.headline %}
+                            {{product.headline}}
+                          {% else %}
+                            {{ product.title }}
+                          {% endif %}
+                      {% endautoescape %}
+                  </h5>
+                </a>
 
-              <p class="card-text"><a href="{% url 'tovar' product.slug %}">
-                {{ product.content|truncatewords:15|linebreaks }}
-              </a></p>
-              <a href="{% url 'tovar' product.slug %}" class="btn btn-primary">Buy</a>
+                <p class="card-text">
+                  
+                      {% if product.bodyline %}
+                        {{product.bodyline|truncatechars:100|linebreaks}}
+                      {% else %}
+                        {{ product.content|truncatechars:40|linebreaks }}
+                      {% endif %}
+                  
+                </p>
 
-            </div>
+                {% comment %} <p class="card-text">
+                  {% autoescape off %}
+                    <a href="{% url 'tovar' product.slug %}">
+                    {{ product.content|truncatewords:15|linebreaks }}
+                  {% endautoescape %}
+                </a></p> {% endcomment %}
+
+                <p class="product_id">id: {{ product.display_id }}</p>
+                {% comment %} <a href="{% url 'tovar' product.slug %}" class="btn btn-primary">Товар</a> {% endcomment %}
+
+                <div class="d-flex justify-content-between">
+                    {% if product.discount %}
+                        <p><s>{{product.price}}</s> $</p>
+                        <p><strong>{{ product.sell_price }} $</strong></p>
+                        <span class="badge bg-warning text-dark">Скидка {{ product.discount }} %</span>
+                    {% else %}
+                        <p><strong>{{ product.price }} $</strong></p>
+                    {% endif %}
+
+                    <a href="{% url "carts:cart_add" %}" class="btn add-to-cart"
+                      data-product-id="{{ product.id }}">
+                          {% csrf_token %}
+                          <img class="mx-1" src="{% static "icons/cart-plus.svg" %}" alt="Catalog Icon"
+                              width="32" height="32">
+                    </a>
+                </div>
+              </div>
+              
           </div>
         </div>
     {% endfor %}
+
+</div>
 {% else %}
     <div class="col-lg-10 col-md-6 mt-4">
         <h1>Упс! У нас нет в наличии {{category_slug}} от {{supplier_slug}}</h1>

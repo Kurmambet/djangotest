@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'pract.apps.PractConfig',
     'users.apps.UsersConfig',
     'debug_toolbar',
+    
+    'carts',
 ]
 
 MIDDLEWARE = [

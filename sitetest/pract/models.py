@@ -24,12 +24,22 @@ class Goods(models.Model):
         OutOfStock = 0, 'Нет в наличии'
         InStock = 1, 'Есть в наличии'
 
+
+
+
     title = models.CharField(max_length=255, verbose_name='Название')
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='Ссылка',
                             validators=[
                             MinLengthValidator(5, message='Минимум 5 символов'),
                             MaxLengthValidator(100, message='Максимум 100 символов'),
                            ])
+    
+
+    price = models.DecimalField(default=0.00, max_digits=7, decimal_places=2, verbose_name='Цена')
+    discount = models.DecimalField(default=0.00, max_digits=4, decimal_places=2, verbose_name='Скидка в %')
+    quantity = models.PositiveIntegerField(default=0, verbose_name='Количество')
+
+
     photo = models.ImageField(upload_to='photos/%Y/%m/%d/', default=None, blank=True,
                               null=True, verbose_name='Фото')
     content = models.TextField(blank=True, verbose_name='Описание')
@@ -42,6 +52,7 @@ class Goods(models.Model):
 
     author = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL,
                                related_name='products_changes', null=True, default=None, verbose_name='Редактировал')
+    
 
     objects = models.Manager()
     stocked = StockManager()
@@ -60,6 +71,17 @@ class Goods(models.Model):
     def get_absolute_url(self):
         return reverse('tovar', kwargs={'tovar_slug': self.slug} )
 
+
+    def display_id(self):
+        return f"{self.id:05}"
+    
+
+
+    def sell_price(self):
+        if self.discount:
+            return round(self.price - self.price*self.discount/100, 2)
+        
+        return self.price
     # def save(self, *args, **kwargs):
     #     self.slug = slugify(translit_to_eng(self.title))
     #     super().save(*args, **kwargs)

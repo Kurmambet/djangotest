@@ -2,10 +2,10 @@ from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
-from django.http import HttpResponse, HttpResponseRedirect
+
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, TemplateView, UpdateView
 
 from pract.utils import DataMixin
 from sitetest import settings
@@ -88,3 +88,14 @@ class UserPasswordChange(PasswordChangeView):
     success_url = reverse_lazy('users:password_change_done')
     template_name = 'users/password_change_form.html'
 
+
+
+
+class UserCartView(TemplateView):
+    template_name = 'users/users_cart.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'Корзина'
+        return context
+     
