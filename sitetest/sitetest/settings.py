@@ -95,13 +95,15 @@ WSGI_APPLICATION = 'sitetest.wsgi.application'
 DATABASES = {
     'default':{
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'db_sitetest',
-        'USER': 'site_admin',
-        'PASSWORD': 'qwertyPSW09',
+        'NAME': 'db_karamelka',
+        'USER': 'karamelka_admin',
+        'PASSWORD': 'karamelkaPSW09',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
+
+
 
 # old
 # DATABASES = {
