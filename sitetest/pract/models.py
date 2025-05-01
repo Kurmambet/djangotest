@@ -22,12 +22,6 @@ class StockManager(models.Manager):
     
 class Goods(models.Model):
 
-    # class Status(models.IntegerChoices):
-    #     OutOfStock = 0, 'Нет в наличии'
-    #     InStock = 1, 'Есть в наличии'
-
-
-
 
     title = models.CharField(max_length=255, verbose_name='Название')
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='Ссылка',
@@ -83,9 +77,6 @@ class Goods(models.Model):
             return round(self.price - self.price*self.discount/100, 2)
         
         return self.price
-    # def save(self, *args, **kwargs):
-    #     self.slug = slugify(translit_to_eng(self.title))
-    #     super().save(*args, **kwargs)
 
 
 

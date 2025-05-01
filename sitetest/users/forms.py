@@ -77,6 +77,8 @@ class RegisterUserForm(UserCreationForm):
         return email
 
 
+
+
 class ProfileUserForm(forms.ModelForm):
     username = forms.CharField(disabled=True, label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
     email = forms.CharField(disabled=True, label='E-mail', widget=forms.TextInput(attrs={'class': 'form-input'}))
@@ -94,6 +96,9 @@ class ProfileUserForm(forms.ModelForm):
             'first_name': forms.TextInput(attrs={'class': 'form-input'}),
             'last_name': forms.TextInput(attrs={'class': 'form-input'}),
         }
+
+
+
 
 class UserPasswordChangeForm(PasswordChangeForm):
 

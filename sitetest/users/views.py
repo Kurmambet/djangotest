@@ -7,11 +7,13 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, TemplateView, UpdateView
 
+from orders.models import Order, OrderItem
 from pract.utils import DataMixin
 from sitetest import settings
 from users.forms import LoginUserForm, RegisterUserForm, ProfileUserForm, UserPasswordChangeForm
 
-
+from django.contrib import messages
+from django.db.models import Prefetch
 # LOGIN_REDIRECT_URL    куда перенаправлять после успешной авторизации
 # LOGIN_URL             куда неавторизованного юзера при попытке попасть в закрытую часть сайта
 # LOGOUT_REDIRECT_URL   куда после выхода
@@ -72,6 +74,7 @@ class ProfileUser(LoginRequiredMixin, UpdateView):
     model = get_user_model()
     form_class = ProfileUserForm
     template_name = 'users/profile.html'
+
     extra_context = {
         'title': 'Профиль',
         'default_image': settings.DEFAULT_USER_IMAGE
@@ -81,6 +84,38 @@ class ProfileUser(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         return self.request.user
+    
+
+
+    def form_valid(self, form):
+        messages.success(self.request, "Профайл успешно обновлен")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Произошла ошибка")
+        return super().form_invalid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Home - Кабинет'
+        context['orders'] = Order.objects.filter(user=self.request.user).prefetch_related(
+                Prefetch(
+                    "orderitem_set",
+                    queryset=OrderItem.objects.select_related("product"),
+                )
+            ).order_by("-id")
+        return context
+
+
+class UserCartView(TemplateView):
+    template_name = 'users/users_cart.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'Корзина'
+        return context
+
+
 
 
 class UserPasswordChange(PasswordChangeView):
@@ -91,11 +126,5 @@ class UserPasswordChange(PasswordChangeView):
 
 
 
-class UserCartView(TemplateView):
-    template_name = 'users/users_cart.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = 'Корзина'
-        return context
      
