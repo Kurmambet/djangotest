@@ -14,19 +14,17 @@ from django.urls import reverse
 #     return "".join(map(lambda x: d[x] if d.get(x, False) else x, s.lower()))
 
 
+
+
 class StockManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(is_stock=Goods.Status.InStock)
-
-# class StockManager(models.Manager):
-#     def get_queryset(self):
-#         return super().get_queryset().filter(quantity__gt=0)
+        return super().get_queryset().filter(quantity__gt=0)
     
 class Goods(models.Model):
 
-    class Status(models.IntegerChoices):
-        OutOfStock = 0, 'Нет в наличии'
-        InStock = 1, 'Есть в наличии'
+    # class Status(models.IntegerChoices):
+    #     OutOfStock = 0, 'Нет в наличии'
+    #     InStock = 1, 'Есть в наличии'
 
 
 
@@ -49,8 +47,7 @@ class Goods(models.Model):
     content = models.TextField(blank=True, verbose_name='Описание')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создание')
     time_update = models.DateTimeField(auto_now=True, verbose_name='Врем обновления')
-    is_stock = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
-                default=Status.InStock, verbose_name='Наличие')
+
     cat = models.ForeignKey('Category', on_delete=models.PROTECT, related_name='products_by_cat', verbose_name='Категория')
     sup = models.ForeignKey('Supplier', on_delete=models.PROTECT, related_name='products_by_sup', verbose_name='Поставщик')
 

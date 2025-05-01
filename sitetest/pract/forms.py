@@ -36,7 +36,7 @@ class AddGoods(forms.ModelForm):
 
 
         # fields = '__all__'
-        fields = ['title', 'slug', 'photo', 'content', 'is_stock', 'cat', 'sup', 'author']
+        fields = ['title', 'slug', 'photo', 'content', 'price', 'discount', 'quantity', 'cat', 'sup', 'author']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-input'}),
             'content': forms.Textarea(attrs={'cols': 50, 'rows': 5}),

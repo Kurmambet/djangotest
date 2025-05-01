@@ -42,11 +42,17 @@ class PricesView(DataMixin, ListView):
 
     def get_queryset(self):
         query = self.request.GET.get("q")
+        on_sale = self.request.GET.get("on_sale")
+        order_by = self.request.GET.get("order_by")
+
         if self.kwargs.get('supplier_slug') is None:
             self.kwargs['supplier_slug'] = 'all'
 
         if self.kwargs.get('category_slug') is None:
             self.kwargs['category_slug'] = 'all'
+
+
+
 
         if self.kwargs.get('supplier_slug') != 'all' and self.kwargs.get('category_slug') != 'all':
             all_goods_db = Goods.stocked.filter(cat__slug=self.kwargs.get('category_slug'), sup__slug = self.kwargs.get('supplier_slug'))
@@ -64,25 +70,17 @@ class PricesView(DataMixin, ListView):
             else:
                 all_goods_db = Goods.stocked.all()
 
+
+        if on_sale:
+            all_goods_db = all_goods_db.filter(discount__gt=0)
+
+        if order_by and order_by != "default":
+            all_goods_db = all_goods_db.order_by(order_by)
+
+
+
         return all_goods_db
     
-        # if self.kwargs.get['supplier_slug'] != 'all' and self.kwargs.get['category_slug'] != 'all':
-        #     all_goods_db = Goods.stocked.filter(cat__slug=self.kwargs['category_slug'], sup__slug = self.kwargs['supplier_slug'])
-
-        # elif query:
-        #     all_goods_db = q_search(query)
-
-        # else:
-        #     if self.kwargs['supplier_slug'] == 'all' and self.kwargs['category_slug'] != 'all':
-        #         all_goods_db = Goods.stocked.filter(cat__slug=self.kwargs['category_slug'])
-
-        #     elif self.kwargs['supplier_slug'] != 'all' and self.kwargs['category_slug'] == 'all':
-        #         all_goods_db = Goods.stocked.filter(sup__slug=self.kwargs['supplier_slug'])
-
-        #     else:
-        #         all_goods_db = Goods.stocked.all()
-
-        # return all_goods_db
 
     def get_context_data(self, **kwargs):
 
@@ -153,7 +151,7 @@ def forma(request):
 class AddGoodsView(PermissionRequiredMixin,LoginRequiredMixin, DataMixin, CreateView):
     form_class = AddGoods # можно и без формы, напрямую в модель
     # model = Goods
-    # fields = ['title', 'slug', 'photo', 'content', 'is_stock', 'cat', 'sup']
+    # fields = ['title', 'slug', 'photo', 'content', 'price', 'discount', 'quantity', 'cat', 'sup']
 
     template_name = 'pract/addproduct.html'
     # success_url = reverse_lazy('prices', args=['all']) # будет формировать ссылку get_absolut_url в определении модели
@@ -174,7 +172,7 @@ class AddGoodsView(PermissionRequiredMixin,LoginRequiredMixin, DataMixin, Create
 class UpdateGoodsView(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, UpdateView):
     slug_url_kwarg = 'tovar_slug'
     model = Goods
-    fields = ['title', 'slug', 'photo', 'content', 'is_stock', 'cat', 'sup']
+    fields = ['title', 'slug', 'photo', 'content', 'price', 'discount', 'quantity', 'cat', 'sup']
     template_name = 'pract/addproduct.html'
     # success_url = reverse_lazy('prices', args=['all']) # будет формировать ссылку get_absolut_url в определении модели
     title_page = 'Редактирование товара'

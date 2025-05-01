@@ -7,18 +7,18 @@ from .models import Goods, Supplier, Category
 
 @admin.register(Goods)
 class ProdAdmin(admin.ModelAdmin):
-    fields = ['title', 'slug', 'price', 'discount', 'quantity', 'photo', 'tovar_photo', 'content', 'is_stock', 'cat', 'sup', 'author']
+    fields = ['title', 'slug', 'price', 'discount', 'quantity', 'photo', 'tovar_photo', 'content', 'cat', 'sup', 'author']
     exclude = ['time_create', 'author']
     readonly_fields = ['time_update', 'tovar_photo', 'author']
     prepopulated_fields = {'slug':('title',)}
-    list_display = ('id', 'title', 'tovar_photo', 'cat', 'sup', 'is_stock','slug', 'time_update','time_create', 'author')
+    list_display = ('id', 'title', 'tovar_photo', 'cat', 'sup', 'price', 'discount', 'quantity', 'slug', 'time_update')
     list_display_links = ('id', 'title')
     ordering = ['-time_update', 'title']
-    list_editable = ('is_stock',)
+    list_editable = ('price', 'quantity', 'discount')
     list_per_page = 15
     actions = ['set_in_stock', 'set_out_of_stock']
     search_fields = ['title','cat__name', 'sup__name']
-    list_filter = ['cat__name','sup__name', 'is_stock']
+    list_filter = ['cat__name','sup__name', 'quantity']
     save_on_top = True
 
     @admin.display(description='Фото товара', ordering='id')
@@ -27,15 +27,15 @@ class ProdAdmin(admin.ModelAdmin):
             return mark_safe(f"<img src='{goods.photo.url}' width=70 >")
         return 'Без фото'
 
-    @admin.action(description='поменять на: Есть в наличии')
+    @admin.action(description='убрать скидку')
     def set_in_stock(self, request, queryset):
-        count = queryset.update(is_stock=Goods.Status.InStock)
+        count = queryset.update(discount=0)
         self.message_user(request, f'У нас появилось {count} записей')
 
 
     @admin.action(description='поменять на: Нет в наличии')
     def set_out_of_stock(self, request, queryset):
-        count = queryset.update(is_stock=Goods.Status.OutOfStock)
+        count = queryset.update(quantity=0)
         self.message_user(request, f'Теперь нет в наличии {count} записей', messages.WARNING)
 
 
