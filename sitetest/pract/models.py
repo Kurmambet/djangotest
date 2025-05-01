@@ -18,6 +18,10 @@ class StockManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(is_stock=Goods.Status.InStock)
 
+# class StockManager(models.Manager):
+#     def get_queryset(self):
+#         return super().get_queryset().filter(quantity__gt=0)
+    
 class Goods(models.Model):
 
     class Status(models.IntegerChoices):

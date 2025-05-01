@@ -14,9 +14,9 @@ from .forms import AddGoods, UploadFileForm
 from .models import Goods, Category, Supplier, UploadFiles
 
 
-from .utils import DataMixin
+from .utils import DataMixin, q_search
 
-# menu = ['Home', 'Pricing', 'Contacts']
+
 
 class Index(DataMixin, ListView):
     # model = Category
@@ -33,6 +33,7 @@ class Index(DataMixin, ListView):
 
 
 
+
 class PricesView(DataMixin, ListView):
     template_name = 'pract/pricing.html'
     context_object_name = 'all_goods_db'
@@ -40,30 +41,65 @@ class PricesView(DataMixin, ListView):
     paginate_by = 6
 
     def get_queryset(self):
-        if self.kwargs['supplier_slug'] != 'all' and self.kwargs['category_slug'] != 'all':
-            all_goods_db = Goods.stocked.filter(cat__slug=self.kwargs['category_slug'], sup__slug = self.kwargs['supplier_slug'])
+        query = self.request.GET.get("q")
+        if self.kwargs.get('supplier_slug') is None:
+            self.kwargs['supplier_slug'] = 'all'
 
-        elif self.kwargs['supplier_slug'] == 'all' and self.kwargs['category_slug'] != 'all':
-            all_goods_db = Goods.stocked.filter(cat__slug=self.kwargs['category_slug'])
+        if self.kwargs.get('category_slug') is None:
+            self.kwargs['category_slug'] = 'all'
 
-        elif self.kwargs['supplier_slug'] != 'all' and self.kwargs['category_slug'] == 'all':
-            all_goods_db = Goods.stocked.filter(sup__slug=self.kwargs['supplier_slug'])
+        if self.kwargs.get('supplier_slug') != 'all' and self.kwargs.get('category_slug') != 'all':
+            all_goods_db = Goods.stocked.filter(cat__slug=self.kwargs.get('category_slug'), sup__slug = self.kwargs.get('supplier_slug'))
+
+        elif query:
+            all_goods_db = q_search(query)
 
         else:
-            all_goods_db = Goods.stocked.all().select_related('cat')
+            if self.kwargs.get('supplier_slug') == 'all' and self.kwargs.get('category_slug') != 'all':
+                all_goods_db = Goods.stocked.filter(cat__slug=self.kwargs.get('category_slug'))
+
+            elif self.kwargs.get('supplier_slug') != 'all' and self.kwargs.get('category_slug') == 'all':
+                all_goods_db = Goods.stocked.filter(sup__slug=self.kwargs.get('supplier_slug'))
+
+            else:
+                all_goods_db = Goods.stocked.all()
 
         return all_goods_db
+    
+        # if self.kwargs.get['supplier_slug'] != 'all' and self.kwargs.get['category_slug'] != 'all':
+        #     all_goods_db = Goods.stocked.filter(cat__slug=self.kwargs['category_slug'], sup__slug = self.kwargs['supplier_slug'])
+
+        # elif query:
+        #     all_goods_db = q_search(query)
+
+        # else:
+        #     if self.kwargs['supplier_slug'] == 'all' and self.kwargs['category_slug'] != 'all':
+        #         all_goods_db = Goods.stocked.filter(cat__slug=self.kwargs['category_slug'])
+
+        #     elif self.kwargs['supplier_slug'] != 'all' and self.kwargs['category_slug'] == 'all':
+        #         all_goods_db = Goods.stocked.filter(sup__slug=self.kwargs['supplier_slug'])
+
+        #     else:
+        #         all_goods_db = Goods.stocked.all()
+
+        # return all_goods_db
 
     def get_context_data(self, **kwargs):
 
 
         context = super().get_context_data(**kwargs)
         return self.get_mixin_context(context,
-                                      title=f'Товар {self.kwargs['category_slug']} от {self.kwargs['supplier_slug']}',
-                                      category_slug = self.kwargs['category_slug'],
-                                      supplier_slug = self.kwargs['supplier_slug'],
+                                      title=f'Товар {self.kwargs.get('category_slug')} от {self.kwargs.get('supplier_slug')}',
+                                      category_slug = self.kwargs.get('category_slug'),
+                                      supplier_slug = self.kwargs.get('supplier_slug'),
                                       cat_db = Category.objects.annotate(total=Count('products_by_cat')).filter(total__gt=0),
                                       sup_db = Supplier.objects.annotate(total=Count('products_by_sup')).filter(total__gt=0))
+
+
+
+
+
+
 
 
 class Tovar(DataMixin, DetailView):

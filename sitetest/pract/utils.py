@@ -1,4 +1,12 @@
-menu = ['Home', 'Pricing', 'Contacts', 'Logout', 'Login', 'Register']
+# menu = ['Home', 'Pricing', 'Contacts', 'Logout', 'Login', 'Register']
+from django.contrib.postgres.search import (
+    SearchVector,
+    SearchQuery,
+    SearchRank,
+    SearchHeadline,
+)
+
+from pract.models import Goods
 
 class DataMixin:
     title_page = None
@@ -27,7 +35,38 @@ class DataMixin:
         else: self.extra_context['category_slug'] = 'all'
 
     def get_mixin_context(self, context, **kwargs):
-        # context['menu'] = menu
-
         context.update(kwargs)
         return context
+    
+
+
+def q_search(query):
+    if query.isdigit() and len(query) <= 5:
+        return Goods.stocked.filter(id=int(query))
+
+    vector = SearchVector("title", "content")
+    query = SearchQuery(query)
+
+    result = (
+        Goods.stocked.annotate(rank=SearchRank(vector, query))
+        .filter(rank__gt=0)
+        .order_by("-rank")
+    )
+
+    result = result.annotate(
+        headline=SearchHeadline(
+            "title",
+            query,
+            start_sel='<span style="background-color: yellow;">',
+            stop_sel="</span>",
+        )
+    )
+    result = result.annotate(
+        bodyline=SearchHeadline(
+            "content",
+            query,
+            start_sel='<span style="background-color: yellow;">',
+            stop_sel="</span>",
+        )
+    )
+    return result

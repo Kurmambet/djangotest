@@ -1,12 +1,12 @@
 from django import template
 import pract.views as views
-from pract.utils import menu
+# from pract.utils import menu
 
 register = template.Library()
 
-@register.simple_tag()
-def get_menu():
-    return menu
+# @register.simple_tag()
+# def get_menu():
+#     return menu
 
 
 

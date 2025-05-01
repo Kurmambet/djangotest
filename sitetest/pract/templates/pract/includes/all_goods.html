@@ -29,13 +29,13 @@
                 </a>
 
                 <p class="card-text">
-                  
+                  {% autoescape off %}
                       {% if product.bodyline %}
                         {{product.bodyline|truncatechars:100|linebreaks}}
                       {% else %}
                         {{ product.content|truncatechars:40|linebreaks }}
                       {% endif %}
-                  
+                  {% endautoescape %}
                 </p>
 
                 {% comment %} <p class="card-text">

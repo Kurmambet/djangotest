@@ -22,7 +22,10 @@
     <div class="col-auto">
         <button type="submit" class="btn btn-primary mt-3 mb-3 mx-3">Войти</button>
     </div>
-    <p class="form-text"><a href="{% url 'users:password_reset' %}">Забыли пароль?</a></p>
+    <p class="form-text">
+        <a href="{% url 'users:password_reset' %}">Забыли пароль?</a>
+        <a href="{% url 'users:register' %}">Регистрация</a>
+    </p>
 </form>
 
 {% endblock %}
