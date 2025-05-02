@@ -9,8 +9,8 @@ $(document).ready(function () {
         e.preventDefault();
 
         // Берем элемент счетчика в значке корзины и берем оттуда значение
-        // var goodsInCartCount = $("#goods-in-cart-count");
-        // var cartCount = parseInt(goodsInCartCount.text() || 0);
+        var goodsInCartCount = $("#goods-in-cart-count");
+        var cartCount = parseInt(goodsInCartCount.text() || 0);
 
         // Получаем id товара из атрибута data-product-id
         var product_id = $(this).data("product-id");
@@ -36,12 +36,12 @@ $(document).ready(function () {
                 }, 7000);
 
                 // Увеличиваем количество товаров в корзине (отрисовка в шаблоне)
-                // cartCount++;
-                // goodsInCartCount.text(cartCount);
+                cartCount++;
+                goodsInCartCount.text(cartCount);
 
                 // Меняем содержимое корзины на ответ от django (новый отрисованный фрагмент разметки корзины)
-                // var cartItemsContainer = $("#cart-items-container");
-                // cartItemsContainer.html(data.cart_items_html);
+                var cartItemsContainer = $("#cart-items-container");
+                cartItemsContainer.html(data.cart_items_html);
 
             },
 
@@ -60,8 +60,8 @@ $(document).ready(function () {
         e.preventDefault();
 
         // Берем элемент счетчика в значке корзины и берем оттуда значение
-        // var goodsInCartCount = $("#goods-in-cart-count");
-        // var cartCount = parseInt(goodsInCartCount.text() || 0);
+        var goodsInCartCount = $("#goods-in-cart-count");
+        var cartCount = parseInt(goodsInCartCount.text() || 0);
 
         // Получаем id корзины из атрибута data-cart-id
         var cart_id = $(this).data("cart-id");
@@ -87,8 +87,8 @@ $(document).ready(function () {
                 }, 7000);
 
                 // Уменьшаем количество товаров в корзине (отрисовка)
-                // cartCount -= data.quantity_deleted;
-                // goodsInCartCount.text(cartCount);
+                cartCount -= data.quantity_deleted;
+                goodsInCartCount.text(cartCount);
 
                 // Меняем содержимое корзины на ответ от django (новый отрисованный фрагмент разметки корзины)
                 var cartItemsContainer = $("#cart-items-container");
@@ -189,16 +189,16 @@ $(document).ready(function () {
     }
 
     // // При клике по значку корзины открываем всплывающее(модальное) окно
-    // $('#modalButton').click(function () {
-    //     $('#exampleModal').appendTo('body');
+    $('#modalButton').click(function () {
+        $('#exampleModal').appendTo('body');
 
-    //     $('#exampleModal').modal('show');
-    // });
+        $('#exampleModal').modal('show');
+    });
 
-    // // Собыите клик по кнопке закрыть окна корзины
-    // $('#exampleModal .btn-close').click(function () {
-    //     $('#exampleModal').modal('hide');
-    // });
+    // Собыите клик по кнопке закрыть окна корзины
+    $('#exampleModal .btn-close').click(function () {
+        $('#exampleModal').modal('hide');
+    });
 
     // Обработчик события радиокнопки выбора способа доставки
     $("input[name='requires_delivery']").change(function () {

@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
-{% block content %}
 {% load static %}
-{% load apptags %}
+
+
+{% block content %}
+
+  {% load apptags %}
 
 
 
@@ -131,3 +134,49 @@
 
   </section>
 {% endblock %}
+
+
+{% block footer %}
+  <footer class="mt-4">
+    <div class="container-fluid">
+      <div class="row">
+
+        <div class="col-lg-4 col-md-12 footer-txt text-center">
+          <P>All Rights Reserved 2025</P>
+        </div>
+
+
+        <div class="col-lg-4 col-md-12 footer-txt text-center">
+
+          <div class="row px-0">
+            <nav class="nav flex-column">
+
+              <a class="nav-link" href="{% url 'about' %}">О нас</a>
+
+              {% if perms.pract.add_goods %}
+                <a class="nav-link" href="{% url 'AddGoodsView' %}">Добавить продукцию</a>
+              {% endif %}
+
+              <a class="nav-link disabled" aria-disabled="true">Contacts</a>
+              <a class="nav-link disabled" aria-disabled="true">Job</a>
+            </nav>
+          </div>
+
+
+        </div>
+
+
+        <div class="col-lg-4 col-md-12 medialinks">
+          <img style="width: 40px; margin-inline: 1em;"
+            src="{% static 'pract/files/instagram-vector-social-media-icon-7-june-2021-bangkok-thailand/instagram.svg' %}"
+            alt="insta">
+          <img style="width: 40px; margin-inline: 1em;"
+            src="{% static 'pract/files/instagram-vector-social-media-icon-7-june-2021-bangkok-thailand/telegram-svgrepo-com.svg' %}"
+            alt="telega">
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+{% endblock footer %}
