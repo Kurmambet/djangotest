@@ -56,17 +56,34 @@ class RegisterUserForm(UserCreationForm):
 
     class Meta:
         model = get_user_model()
-        fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
-        labels = {
-            'email': 'E-mail',
-            'first_name': 'Имя',
-            'last_name': 'Фамилия',
-        }
-        widgets = {
-            'email': forms.TextInput(attrs={'class': 'form-input'}),
-            'first_name': forms.TextInput(attrs={'class': 'form-input'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-input'}),
-        }
+        fields = (
+            "first_name",
+            "last_name",
+            "username",
+            "email",
+            "password1",
+            "password2",
+        )
+    
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+    username = forms.CharField()
+    email = forms.CharField()
+    password1 = forms.CharField()
+    password2 = forms.CharField()
+
+
+        # fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
+        # labels = {
+        #     'email': 'E-mail',
+        #     'first_name': 'Имя',
+        #     'last_name': 'Фамилия',
+        # }
+        # widgets = {
+        #     'email': forms.TextInput(attrs={'class': 'form-input'}),
+        #     'first_name': forms.TextInput(attrs={'class': 'form-input'}),
+        #     'last_name': forms.TextInput(attrs={'class': 'form-input'}),
+        # }
 
     # def clean_password2(self): # происходит в UserCreationForm
     #     cd = self.cleaned_data

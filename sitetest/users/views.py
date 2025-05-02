@@ -69,7 +69,6 @@ class LoginUserView(LoginView):
 class RegisterUserView(CreateView):
     form_class = RegisterUserForm
     template_name = 'users/register.html'
-    extra_context = {'title': 'Регистрация'}
     success_url = reverse_lazy('users:profile')
     
 
@@ -79,7 +78,7 @@ class RegisterUserView(CreateView):
 
         if user:
             form.save()
-            auth.login(self.request, user)
+            auth.login(self.request, user, backend='users.authentication.EmailAuthBackend')
 
         if session_key:
             Cart.objects.filter(session_key=session_key).update(user=user)
@@ -87,6 +86,12 @@ class RegisterUserView(CreateView):
         messages.success(self.request, f"{user.username}, Вы успешно зарегистрированы и вошли в аккаунт")
         return HttpResponseRedirect(self.success_url)
 
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Карамелька - Регистрация'
+        return context
 
 
 

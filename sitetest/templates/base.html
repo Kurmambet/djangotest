@@ -56,7 +56,7 @@
                   </li>
 
                   {% if not user.is_authenticated %}
-                      <li class="nav-item">
+                      <li class="nav-item btn btn-dark btn-secondary d-flex">
                           <a class="nav-link  text-white" href="{% url "users:login" %}">Войти</a>
                       </li>
                   {% else %}
