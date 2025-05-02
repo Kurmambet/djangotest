@@ -7,17 +7,21 @@ from django.urls import reverse_lazy
 
 
 class LoginUserForm(AuthenticationForm):
-    username = forms.CharField(label='Логин или E-mail',
-                               widget=forms.TextInput(attrs={'class': 'form-input'}))
-
-    password = forms.CharField(label='Пароль',
-                               widget=forms.PasswordInput(attrs={'class': 'form-input'}))
-
-
-
     class Meta:
         model = get_user_model()
         fields = ['username', 'password']
+
+    username = forms.CharField()
+    password = forms.CharField()
+
+    # username = forms.CharField(label='Логин или E-mail',
+    #                            widget=forms.TextInput(attrs={'class': 'form-input'}))
+
+    # password = forms.CharField(label='Пароль',
+    #                            widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+
+
+
 
 # class RegisterUserForm(forms.ModelForm):
 #     username = forms.CharField(label='Логин')
