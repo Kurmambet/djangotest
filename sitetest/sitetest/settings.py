@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-
+from os import environ
 from django.conf.global_settings import INTERNAL_IPS, STATICFILES_DIRS, MEDIA_ROOT, LOGOUT_REDIRECT_URL, \
     AUTH_USER_MODEL, MEDIA_URL
 
@@ -22,13 +22,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-b&dh_yudsu_g0v)6p@)+h3pmnrkyp+by&v+%%p$383bujhb&-_'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+
+SECRET_KEY = environ.get("DJANGO_SECRET_KEY")
+
+
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+allowed_hosts = environ.get("DJANGO_ALLOWED_HOSTS")
+ALLOWED_HOSTS = allowed_hosts.split(" ") if allowed_hosts else []
+
+
+
 INTERNAL_IPS = ['127.0.0.1']
 
 # Application definition
@@ -87,38 +92,19 @@ WSGI_APPLICATION = 'sitetest.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
-# new
+
 DATABASES = {
     'default':{
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'db_karamelka',
-        'USER': 'karamelka_admin',
-        'PASSWORD': 'karamelkaPSW09',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'NAME': environ.get('DATABASE_NAME'),
+        'USER': environ.get('DATABASE_USERNAME'),
+        'PASSWORD': environ.get('DATABASE_PASSWORD'),
+        'HOST': environ.get('DATABASE_HOST'),
+        'PORT': environ.get('DATABASE_PORT'),
     }
 }
 
-
-
-# old
-# DATABASES = {
-#     'default':{
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'django',
-#         'USER': 'django_admin',
-#         'PASSWORD': 'qwertyPSW09',
-#         'HOST': '127.0.0.1',
-#         'PORT': '5432',
-#     }
-# }
 
 
 CACHES = {
