@@ -1,3 +1,5 @@
+{% load cache %}
+
 <div class="accordion" id="accordionPanelsStayOpenExample">
 
   <div class="accordion-item">
@@ -10,7 +12,10 @@
       <div class="accordion-body">
           
           <div class="list-group">
-          
+
+            {% cache 60 catalog_categories %}
+
+
               {% if category_slug == 'all' %}
                   <a href="{% url 'prices' supplier_slug 'all' %}" class="list-group-item list-group-item-action active" aria-current="true">
                           Все категории
@@ -29,12 +34,13 @@
                   {% endif %}
               {% endfor %}
 
+            {% endcache %}
           </div>
 
       </div>
     </div>
   </div>
-
+ 
   <div class="accordion-item">
     <h2 class="accordion-header">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
@@ -45,7 +51,9 @@
       <div class="accordion-body">
 
           <div class="list-group">
-          
+
+            {% cache 60 catalog_suppliers %}
+
               {% if supplier_slug == 'all' %}
                   <a href="{% url 'prices' 'all' category_slug %}" class="list-group-item list-group-item-action active" aria-current="true">
                           Все категории
@@ -64,6 +72,8 @@
                   {% endif %}
           
               {% endfor %}
+
+            {% endcache %}
 
           </div>
 

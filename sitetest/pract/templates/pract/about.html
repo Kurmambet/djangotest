@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block content %}
+{% comment %} {% block content %}
   
 
 
@@ -39,8 +39,12 @@
       <p><a class="nav-link" href="{% url 'home' %}">home</a></p>
   </div>
 
-{% endblock %}
+{% endblock %} {% endcomment %}
+{% block content %}
+Мы - магаз в ебенях Казахстана, радуем местных жителей вкусным чаем, кофем и всем,
+и всем, что нужно для хорошего настроения
 
+{% endblock content %}
 
 {% block footer %}
   <footer class="mt-4">

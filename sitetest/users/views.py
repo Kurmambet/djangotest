@@ -9,6 +9,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, TemplateView, UpdateView
 
 from carts.models import Cart
+from common.mixins import CacheMixin
 from orders.models import Order, OrderItem
 from pract.utils import DataMixin
 from sitetest import settings
@@ -96,7 +97,9 @@ class RegisterUserView(CreateView):
 
 
 
-class ProfileUser(LoginRequiredMixin, UpdateView):
+
+
+class ProfileUser(LoginRequiredMixin, CacheMixin, UpdateView):
     model = get_user_model()
     form_class = ProfileUserForm
     template_name = 'users/profile.html'
@@ -105,6 +108,7 @@ class ProfileUser(LoginRequiredMixin, UpdateView):
         'title': 'Профиль',
         'default_image': settings.DEFAULT_USER_IMAGE
     }
+
     def get_success_url(self):
         return reverse_lazy('users:profile')
 
@@ -114,7 +118,7 @@ class ProfileUser(LoginRequiredMixin, UpdateView):
 
 
     def form_valid(self, form):
-        messages.success(self.request, "Профайл успешно обновлен")
+        messages.success(self.request, "Профиль успешно обновлен")
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -123,14 +127,22 @@ class ProfileUser(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Home - Кабинет'
-        context['orders'] = Order.objects.filter(user=self.request.user).prefetch_related(
+        context['title'] = 'Карамелька - Кабинет'
+        
+        orders = Order.objects.filter(user=self.request.user).prefetch_related(
                 Prefetch(
                     "orderitem_set",
                     queryset=OrderItem.objects.select_related("product"),
                 )
             ).order_by("-id")
+        
+        context['orders'] = self.set_get_cache(query=orders, 
+                                               cache_name=f'user_{self.request.user.id}', 
+                                               cache_time=60 * 2)
         return context
+    
+
+
 
 
 class UserCartView(TemplateView):
