@@ -42,6 +42,7 @@ $(document).ready(function () {
                 // Меняем содержимое корзины на ответ от django (новый отрисованный фрагмент разметки корзины)
                 var cartItemsContainer = $("#cart-items-container");
                 cartItemsContainer.html(data.cart_items_html);
+                
 
             },
 
@@ -90,9 +91,11 @@ $(document).ready(function () {
                 cartCount -= data.quantity_deleted;
                 goodsInCartCount.text(cartCount);
 
+
+                $(".cart-container").html(data.cart_items_html);
                 // Меняем содержимое корзины на ответ от django (новый отрисованный фрагмент разметки корзины)
-                var cartItemsContainer = $("#cart-items-container");
-                cartItemsContainer.html(data.cart_items_html);
+                // var cartItemsContainer = $("#cart-items-container");
+                // cartItemsContainer.html(data.cart_items_html);
 
             },
 

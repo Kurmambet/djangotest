@@ -11,7 +11,7 @@ urlpatterns = [
      path('register/', views.RegisterUserView.as_view(), name='register'),
      path('profile/', views.ProfileUser.as_view(), name='profile'),
      path('password-change/', views.UserPasswordChange.as_view(), name='password-change'),
-     path('users-cart/', views.UserCartView.as_view(), name='users_cart'),  
+     # path('users-cart/', views.UserCartView.as_view(), name='users_cart'),  
 
 
 
