@@ -30,7 +30,7 @@ SECRET_KEY = environ.get("DJANGO_SECRET_KEY")
 DEBUG = True
 
 allowed_hosts = environ.get("DJANGO_ALLOWED_HOSTS")
-ALLOWED_HOSTS = allowed_hosts.split(" ") if allowed_hosts else []
+ALLOWED_HOSTS = allowed_hosts.split(" ") if allowed_hosts else ['127.0.0.1']
 
 
 
@@ -46,12 +46,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'debug_toolbar',
+
     'pract.apps.PractConfig',
     'users.apps.UsersConfig',
-    'debug_toolbar',
-    
     'carts',
     'orders',
+    'payment',
 ]
 
 MIDDLEWARE = [
@@ -194,3 +195,11 @@ EMAIL_ADMIN = EMAIL_HOST_USER
 
 AUTH_USER_MODEL = 'users.User'
 DEFAULT_USER_IMAGE = MEDIA_URL + 'users/default.png'
+
+
+
+
+STRIPE_PUBLISHABLE_KEY = environ.get('S_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = environ.get('S_SECRET_KEY')
+STRIPE_API_VERSION = environ.get('S_API_VERSION')
+STRIPE_WEBHOOK_SECRET = environ.get('S_WEBHOOK_SECRET')

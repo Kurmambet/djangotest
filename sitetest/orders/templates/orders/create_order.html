@@ -51,6 +51,18 @@
                             {% endif %}
                             <div class="alert alert-danger alert-dismissible fade show" style="display: none" id="phone_number_error">Неверный формат номера</div>
                         </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="id_email" class="form-label">E-mail*:</label>
+                            <input type="email" class="form-control" id="id_email" name="email"
+                                value="{% if form.email.value %}{{ form.email.value }}{% endif %}"
+                                placeholder="По умолчанию: {{request.user.email}}"
+                                required>
+                            {% if form.email.errors %}
+                                <div class="alert alert-danger alert-dismissible fade show">{{form.email.errors}}</div>
+                            {% endif %}
+                        </div>
+
                         <div class="col-md-12 mb-3">
                             <label for="delivery" class="form-label">Способ доставки: </label>
                             <div class="form-check form-check-inline">
@@ -65,6 +77,28 @@
                                 <label class="form-check-label" for="id_requires_delivery">Самовывоз</label>
                             </div>
                         </div>
+
+                        <div class="mb-3" id="сityField">
+                            <label for="id_city" class="form-label">Город
+                                доставки*:</label>
+                            <textarea class="form-control" id="id_city"
+                                value="{% if form.city.value %}{{ form.city.value }}{% endif %}"
+                                name="city" rows="1"></textarea>
+                            {% if form.city.errors %}
+                                <div class="alert alert-danger alert-dismissible fade show">{{form.city.errors}}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3" id="postal_codeField">
+                            <label for="id_postal_code" class="form-label">Почтовый код*:</label>
+                            <textarea class="form-control" id="id_postal_code"
+                                value="{% if form.postal_code.value %}{{ form.postal_code.value }}{% endif %}"
+                                name="postal_code" rows="1"></textarea>
+                            {% if form.postal_code.errors %}
+                                <div class="alert alert-danger alert-dismissible fade show">{{form.postal_code.errors}}</div>
+                            {% endif %}
+                        </div>
+
                         <div class="mb-3" id="deliveryAddressField">
                             <label for="id_delivery_adress" class="form-label">Адрес
                                 доставки*:</label>

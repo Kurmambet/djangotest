@@ -2,7 +2,7 @@ from django.db import models
 from pract.models import Goods
 
 from users.models import User
-
+from django.conf import settings
 
 class OrderitemQueryset(models.QuerySet):
     
@@ -24,6 +24,14 @@ class Order(models.Model):
     is_paid = models.BooleanField(default=False, verbose_name="Оплачено")
     status = models.CharField(max_length=50, default='В обработке', verbose_name="Статус заказа")
 
+
+    postal_code = models.CharField(max_length=20, blank=True, null=True)
+    city = models.CharField(max_length=100, blank=True, null=True)
+    updated_timestamp = models.DateTimeField(auto_now=True, verbose_name="Дата обновления заказа")
+    stripe_id = models.CharField(max_length=250, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+
+
     class Meta:
         db_table = "order"
         verbose_name = "Заказ"
@@ -32,13 +40,21 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Заказ № {self.pk} | Покупатель {self.user.first_name} {self.user.last_name}"
-
+    
+    def get_stripe_url(self):
+        if not self.stripe_id:
+            return ''
+        if '_test_' in settings.STRIPE_SECRET_KEY:
+            path = '/test/'
+        else:
+            path = '/'
+        return f'https://dashboard.stripe.com{path}payments/{self.stripe_id}'
 
 class OrderItem(models.Model):
     order = models.ForeignKey(to=Order, on_delete=models.CASCADE, verbose_name="Заказ")
     product = models.ForeignKey(to=Goods, on_delete=models.SET_DEFAULT, null=True, verbose_name="Продукт", default=None)
     name = models.CharField(max_length=150, verbose_name="Название")
-    price = models.DecimalField(max_digits=7, decimal_places=2, verbose_name="Цена")
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена")
     quantity = models.PositiveIntegerField(default=0, verbose_name="Количество")
     created_timestamp = models.DateTimeField(auto_now_add=True, verbose_name="Дата продажи")
 

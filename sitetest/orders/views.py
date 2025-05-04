@@ -25,6 +25,7 @@ class CreateOrderView(LoginRequiredMixin, FormView):
         initial['first_name'] = self.request.user.first_name
         initial['last_name'] = self.request.user.last_name
         initial['email'] = self.request.user.email
+        print('default',self.request.user.email)
         return initial
 
 
@@ -39,11 +40,15 @@ class CreateOrderView(LoginRequiredMixin, FormView):
                     # Создать заказ
                     order = Order.objects.create(
                         user=user,
+                        email=form.cleaned_data["email"],
                         phone_number=form.cleaned_data["phone_number"],
                         requires_delivery=form.cleaned_data["requires_delivery"],
                         delivery_adress=form.cleaned_data["delivery_adress"],
                         payment_on_get=form.cleaned_data["payment_on_get"],
+                        postal_code=form.cleaned_data["postal_code"],
+                        city=form.cleaned_data["city"],
                     )
+                    print('form',form.cleaned_data["email"])
                     # Создать заказанные товары
                     for cart_item in cart_items:
                         product = cart_item.product

@@ -33,6 +33,8 @@ class OrderTabulareAdmin(admin.TabularInline):
         "payment_on_get",
         "is_paid",
         "created_timestamp",
+        "updated_timestamp",
+        "city",
     )
 
     search_fields = (

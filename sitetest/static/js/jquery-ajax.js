@@ -209,8 +209,12 @@ $(document).ready(function () {
         // Скрываем или отображаем input ввода адреса доставки
         if (selectedValue === "1") {
             $("#deliveryAddressField").show();
+            $("#postal_codeField").show();
+            $("#сityField").show();
         } else {
             $("#deliveryAddressField").hide();
+            $("#postal_codeField").hide();
+            $("#сityField").hide();
         }
     });
 

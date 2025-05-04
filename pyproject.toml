@@ -10,4 +10,5 @@ dependencies = [
     "django-extensions>=4.1",
     "pillow>=11.2.1",
     "psycopg2>=2.9.10",
+    "stripe>=12.1.0",
 ]
