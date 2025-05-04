@@ -179,17 +179,13 @@ AUTHENTICATION_BACKENDS = [
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 
-EMAIL_HOST = 'smtp.yandex.ru'
-EMAIL_PORT = 465
-EMAIL_HOST_USER = 'Karamelka-site@yandex.ru'
-EMAIL_HOST_PASSWORD = 'byrrnodvbwieomzp'
-EMAIL_USE_SSL = True
+EMAIL_HOST = environ.get('SMTP_EMAIL_HOST')
+EMAIL_PORT = environ.get('SMTP_EMAIL_PORT')
+EMAIL_HOST_USER = environ.get('SMTP_EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = environ.get('SMTP_EMAIL_HOST_PASSWORD')
+EMAIL_USE_SSL = environ.get('SMTP_EMAIL_USE_SSL')
 #
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER = 'Karamelka-site@gmail.com'
-# EMAIL_HOST_PASSWORD = 'aldywvfboldwebgd'
-# EMAIL_USE_TLS = True
+
 
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
